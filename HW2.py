@@ -147,7 +147,7 @@ class Stack:
             if val in ops:
                 # Malformed postfix expressions
                 if size() < 2:
-                    raise ValueError("Malformed postfix expression: not enough operands for operator " + val)
+                    raise ValueError("Malformed postfix expression")
 
                 right = pop()
                 left = pop()
