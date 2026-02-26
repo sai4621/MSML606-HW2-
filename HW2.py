@@ -123,9 +123,28 @@ class Stack:
 
     # DO NOT USE EVAL function for evaluating the expression
 
-    def evaluatePostfix(exp: str) -> int:
-        # TODO: implement this using your Stack class
-        pass
+    def evaluatePostfix(self, exp: str) -> int:
+        ops = {"+", "-", "*", "/"}
+        vals = exp.split()
+
+        for token in vals:
+            if token not in ops:
+                self.push(int(token))
+                continue
+
+            right = self.pop()
+            left = self.pop()
+
+            if token == "+":
+                self.push(left + right)
+            elif token == "-":
+                self.push(left - right)
+            elif token == "*":
+                self.push(left * right)
+            else:
+                self.push(int(left / right))
+
+        return self.pop()
 
 
 # Main Function. Do not edit the code below
