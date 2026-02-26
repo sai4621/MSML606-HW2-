@@ -25,6 +25,9 @@ class HomeWork2:
 
     def constructBinaryTree(self, input) -> TreeNode:
         
+        if not input: # empty postfix expression 
+            return None 
+        
         ops = {'+', '-', '*', '/'}
         stack = []
 
@@ -124,27 +127,47 @@ class Stack:
     # DO NOT USE EVAL function for evaluating the expression
 
     def evaluatePostfix(self, exp: str) -> int:
+        self.stack = []
+        self.top = -1
+
         ops = {"+", "-", "*", "/"}
         vals = exp.split()
 
-        for token in vals:
-            if token not in ops:
-                self.push(int(token))
+        # empty postfix expression.
+        if not vals:
+            raise ValueError("Empty postfix expression")
+
+        push = self.push
+        pop = self.pop
+        size = self.size
+
+        for val in vals:
+            if val in ops:
+                # Malformed postfix expressions
+                if size() < 2:
+                    raise ValueError("Malformed postfix expression")
+
+                right = pop()
+                left = pop()
+
+                if val == "+":
+                    push(left + right)
+                elif val == "-":
+                    push(left - right)
+                elif val == "*":
+                    push(left * right)
+                else:
+                    # division by zero.
+                    if right == 0:
+                        raise ZeroDivisionError("division by zero")
+                    push(int(left / right))
                 continue
 
-            right = self.pop()
-            left = self.pop()
+        # malformed expression 
+        if size() != 1:
+            raise ValueError("Too many operands")
 
-            if token == "+":
-                self.push(left + right)
-            elif token == "-":
-                self.push(left - right)
-            elif token == "*":
-                self.push(left * right)
-            else:
-                self.push(int(left / right))
-
-        return self.pop()
+        return pop()
 
 
 # Main Function. Do not edit the code below
