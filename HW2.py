@@ -105,6 +105,8 @@ class Stack:
         self.top += 1
         
     def pop(self):
+        if self.top == -1:
+            raise IndexError("cannot pop from an empty stack")
         value = self.stack[self.top]
         self.stack.pop()
         self.top -= 1
@@ -145,7 +147,7 @@ class Stack:
             if val in ops:
                 # Malformed postfix expressions
                 if size() < 2:
-                    raise ValueError("Malformed postfix expression")
+                    raise ValueError("Malformed postfix expression: not enough operands for operator " + val)
 
                 right = pop()
                 left = pop()
@@ -159,9 +161,11 @@ class Stack:
                 else:
                     # division by zero.
                     if right == 0:
-                        raise ZeroDivisionError("division by zero")
+                        raise ZeroDivisionError("Division by zero encountered in expression")
                     push(int(left / right))
-                continue
+            else:
+                # Push operand onto stack
+                push(int(val))
 
         # malformed expression 
         if size() != 1:
@@ -234,3 +238,5 @@ if __name__ == "__main__":
         except ZeroDivisionError:
             assert expected == "DIVZERO", f"Test {idx} unexpected division by zero"
             print(f"Test case {idx} passed (division by zero handled)")
+        except ValueError as e:
+            print(f"Test case {idx} failed with error: {e}")
