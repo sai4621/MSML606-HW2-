@@ -96,6 +96,19 @@ class Stack:
     def __init__(self):
         self.stack = []
         self.top = -1
+        
+    def push(self, item):
+        self.stack.append(item)
+        self.top += 1
+        
+    def pop(self):
+        value = self.stack[self.top]
+        self.stack.pop()
+        self.top -= 1
+        return value
+    
+    def size(self):
+        return self.top + 1
 
     # Problem 3: Write code to evaluate a postfix expression using stack and return the integer value
     # Use stack which you implemented above for this problem
