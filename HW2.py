@@ -24,7 +24,20 @@ class HomeWork2:
     #     3   4
 
     def constructBinaryTree(self, input) -> TreeNode:
-        pass
+        
+        ops = {'+', '-', '*', '/'}
+        stack = []
+
+        for val in input:
+            node = TreeNode(val)
+
+            if val in ops:
+                node.right = stack.pop()
+                node.left = stack.pop()
+
+            stack.append(node)
+
+        return stack.pop() 
 
 
 
@@ -68,8 +81,8 @@ class Stack:
     # Use your own stack implementation to solve problem 3
 
     def __init__(self):
-        # TODO: initialize the stack
-        pass
+        self.stack = []
+        self.top = -1
 
     # Problem 3: Write code to evaluate a postfix expression using stack and return the integer value
     # Use stack which you implemented above for this problem
